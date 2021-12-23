@@ -1,0 +1,57 @@
+{% extends 'base_page.html' %}{% load static %}{% block content %}
+{% include 'nav_bar.html' %}
+<main>
+  <div class="user-info-container">
+    <!--main flex-->
+    <div class="user-img-container">
+      <img
+        src="{% static 'img/profile_pic/user-default.png' %}"
+        alt="profile image"
+        width="90px"
+        height="90px"
+      />
+      <p class="user-email">{{request.user.email}}</p>
+    </div>
+    <!--flex img container-->
+    <div class="bio-projs-cont-container">
+      <!--flex bio/projects/content-->
+      <div class="user-bio-header">
+        <p class="link-to-projs-container">
+          {% if request.path == '/my-account/' %}
+          <a href="{% url 'proj-create' %}">Projects</a>
+          {% else %}
+          <a href="{% url 'my-account' %}">Bio</a>
+          {% endif %}
+        </p>
+      </div>
+      <!--content-->
+      <div class="user-bio-content">
+        {% if request.path == '/my-account/' %}
+        <div class="user-edit-form">
+          <form action="" method="post" class="acc-form">
+            {% csrf_token %}
+            {% for field in form %}
+            {% if field != form.email and field != form.password %}
+            <label for="{{field.auto_id}}" class="acc-label"> {{field.label}}: </label>
+            {{field}}
+            {{field.errors}}
+            {% endif %}
+            {% endfor %}
+            <input type="submit" name="submit" id="submit" class="acc-subm-btn" />
+          </form>
+          <p class="imp-info">
+            Bare in mind <br />if you dont fill the first 4 fields, <br />
+            you wont appear on the developers page!
+          </p>
+        </div>
+        {% else %}
+        {% block proj-create %}
+        {% endblock proj-create %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+
+
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends 'account.html' %}{% load static %}{% block proj-create %}
+<main>
+  <div class="proj-create-main">
+    {% if projects %}
+    <div class="projs-column">
+      {% for proj in projects %}
+      <div class="proj-creation-container">
+        <div class="proj-img-link">
+          <img
+            src="{% static 'img/proj_pic/proj-default.png' %}"
+            alt="project image"
+          />
+          <a href="{{proj.source_link}}"
+            ><button class="proj-link">Source Link</button></a
+          >
+        </div>
+        <div class="proj-title-descr">
+          <p class="proj-title">{{proj.title}}</p>
+          <p class="proj-descr">{{proj.description}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <h1>You don't have any projects yet!</h1>
+    {% endif %}
+    <div class="form-container">
+      <form action="" method="post" class="proj-create-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <label for="{{field.auto_id}}" class="form-label"
+          >{{field.label}}:</label
+        >
+        {{field}}
+        {{field.errors}}
+        {% endfor %}
+        <input type="submit" name="submit" id="submit" class="form-btn" />
+      </form>
+    </div>
+  </div>
+</main>
+
+{% endblock proj-create %}

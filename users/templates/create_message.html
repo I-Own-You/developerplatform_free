@@ -1,0 +1,19 @@
+{% extends 'base_page.html' %}{% load static %}{% block content %}
+{% include 'nav_bar.html' %}
+<main>
+  <div class="msg-create-page">
+    <div class="msg-create-content">
+      <form action="" method="post" class="create-msg-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <label for="{{field.auto_id}}" class="create-msg-label"
+          >{{field.label}}</label
+        >
+        {{field}} {{field.errors}} {% endfor %}
+        <input type="submit" value="Submit" class="create-msg-btn">
+      </form>
+    </div>
+  </div>
+</main>
+
+{% endblock content %}

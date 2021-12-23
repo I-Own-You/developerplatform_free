@@ -1,0 +1,12 @@
+{% extends 'base_page.html' %}{% load static %}
+{% block content %}
+{% include 'nav_bar.html' %}
+<main>
+  <div class="msg-content-page">
+    <div class="msg-content">
+      <p class="msg-subj msg">{{msg.content}}</p>
+      <p class="msg-sender msg">Sent by: <a href="">{{msg.sender}}</a></p>
+    </div>
+  </div>
+</main>
+{% endblock content %}

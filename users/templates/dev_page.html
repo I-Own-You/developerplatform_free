@@ -1,0 +1,95 @@
+{% extends 'base_page.html' %}{% load static %}{% block content %}
+<main>
+  <div class="main-page-container">
+    <div class="upp-part-page">
+      <div class="nav-bar-container">{% include 'nav_bar.html' %}</div>
+      <div class="description-upp-part-page">
+        <p class="main-page-descript">
+          FIND OUT THE MOST <b>INCREDIBLE</b> <br />
+          AND INSANE <b>PROJECTS</b> FROM <br />
+          <b>DEVELOPERS</b> AROUND THE WORLD
+        </p>
+      </div>
+    </div>
+    <div class="low-part-page-container">
+      <div class="search-bar-container">
+        <form action="" method="get">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="search-dev"
+            id="search-text"
+            placeholder="Search developers"
+            class="search-bar-input"
+          />
+          <button type="submit" class="search-bar-button">Submit</button>
+        </form>
+      </div>
+      <div class="low-part-page">
+        {% for dev in page_obj %}
+        <div class="dev-card">
+          <div class="dev-pic--fl-name--work-pos-container">
+            <div class="dev-img--socials-container">
+              <p class="dev-img-container">
+                <img
+                  src="{% static 'img/profile_pic/user-default.png' %}"
+                  alt="profile picture"
+                  class="dev-img"
+                />
+              </p>
+              <div class="dev-socials-container">
+                <a href="{{dev.social_link_github}}" class="dev-social"
+                  ><img
+                    src="{% static 'img/png/GitHub-Mark-Light-32px.png' %}"
+                    alt="git-hub link"
+                /></a>
+                <a href="{{dev.social_link_linkedIn}}" class="dev-social"
+                  ><img
+                    src="{% static 'img/png/Social-Networks-Linkedin-icon.png' %}"
+                    alt="linked-in link"
+                /></a>
+              </div>
+            </div>
+            <div class="dev-fl-name--work-pos">
+              <p class="dev-fl-name">{{dev.first_name}} {{dev.last_name}}</p>
+              <p class="dev-work-pos">{{dev.work_position}}</p>
+              <div class="dev-projs-page">
+                <a href="{% url 'proj-page' %}?next={{dev.id}}" class="dev-projs-link">Show Projects!</a>
+              </div>
+            </div>
+          </div>
+          <div class="dev-description-container">
+            <p class="dev-description">{{dev.short_bio}}</p>
+            {% if request.user.email != dev.email %}
+            <a href="{% url 'create-message' dev.id %}" class="dev-msg"
+              ><img
+                src="{% static 'img/png/dev-mess.png' %}"
+                alt="developer message"
+            /></a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if page_obj %}
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }}
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+    </div>
+  </div>
+</main>
+
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'base_page.html' %} {% load static %} {% block register %}
+<main>
+  <div class="bg-register">
+    <div class="form-and-login-container">
+      <div class="login-container-option">
+        <p class="login-option-text">Already have an account ?</p>
+        <a href="{% url 'login' %}" class="login-option-link">Log In</a>
+        <a href="{% url 'dev-page' %}" class="login-option-link">Home</a>
+      </div>
+      <div class="form-container-register">
+        <form method="post" class="register-form">
+          {% csrf_token %}
+          {% for field in form %}
+          {% if forloop.counter <= 5 %}
+          <label for="{{field.auto_id}}" class="all-labels-form-custom"
+            >{{field.label}}</label
+          >
+          {{ field }} {{field.errors}}
+          {% endif %}
+          {% endfor %}
+          <input type="submit" class="btn-subm-form" value="Submit" />
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+{% endblock register %}

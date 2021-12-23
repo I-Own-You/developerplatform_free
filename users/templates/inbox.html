@@ -1,0 +1,21 @@
+{% extends 'base_page.html' %}{% load static %}
+{% block content %}
+{% include 'nav_bar.html' %}
+<main>
+  <div class="page-container">
+    <div class="content-page">
+      <h1 class="new-msg">NEW MESSAGES ({% if unread_msg %}<span>{{unread_msg}}</span>{% endif %})</h1>
+      {% for msg in msgs %}
+      <a href="{% url 'message' msg.id %}">
+        <div class="msg-container {% if msg.is_read %}msg-read{% endif %}">
+          <p class="msg-reciever">{{msg.sender}}</p>
+          <p class="msg-subject">{{msg.subject}}</p>
+          <p class="msg-date-created">{{msg.created}}</p>
+        </div>
+        {% endfor %}
+      </a>
+    </div>
+  </div>
+</main>
+
+{% endblock content %}

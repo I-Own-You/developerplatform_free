@@ -1,0 +1,43 @@
+{% extends 'base_page.html' %} {% block login %} {% load static %}
+<main>
+  <div class="bg-login">
+    <div class="login-form-container">
+      <div class="sing-up-container">
+        <p class="sing-up-text">Don't have an account ?</p>
+        <a href="{% url 'register' %}" class="sign-up-link">Sign Up</a>
+        <a href="{% url 'dev-page' %}" class="sign-up-link">Home</a>
+      </div>
+      <form class="login-form" method="POST">
+        {% csrf_token %}
+        <label for="email" class="email-label label-form">Email:</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="text-input input-form"
+        />
+        <label for="password" class="pass-label label-form">Password:</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="pass-input input-form"
+        />
+        {% if messages %}
+          {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}-msg"{% endif %}>{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+  
+        <input
+          type="submit"
+          name="submit"
+          id="submit"
+          value="Submit"
+          class="submit-form"
+        />
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock login %}

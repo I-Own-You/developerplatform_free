@@ -1,0 +1,38 @@
+{% load static %} {% block nav-bar %}
+<nav class="nav-bar">
+  <ul class="ul-nav-bar-options">
+    <li class="logo-nav-bar">
+      <span class="logo-nav-bar-text">HackerThrown</span>
+    </li>
+    <li class="nav-li-el">
+      <!-- <span class="nav-bar-span"> -->
+      <a href="{% url 'dev-page' %}">Developers</a>
+        <!-- </span> -->
+    </li>
+    <li class="nav-li-el">
+      <span class="nav-bar-span"
+        ><a href="{% url 'proj-page' %}">Projects</a></span
+      >
+    </li>
+    {% if request.user.is_authenticated and request.user.name != 'admin' %}
+    <li class="nav-li-el">
+      <span class="nav-bar-span">
+        <a href="{% url 'inbox' %}">Inbox</a>
+      </span>
+    </li>
+    <li class="nav-li-el">
+      <span class="nav-bar-span">
+        <a href="{% url 'my-account' %}">My Account</a>
+      </span>
+    </li>
+    <a href="{% url 'logout' %}"
+      ><input type="submit" value="Log out" class="log-in--out--user"
+    /></a>
+    {% else %}
+    <a href="{% url 'login' %}"
+      ><input type="submit" value="Log in" class="log-in--out--user"
+    /></a>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock nav-bar %}

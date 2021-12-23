@@ -1,0 +1,89 @@
+{% extends 'base_page.html' %}{% load static %}{% block content %}
+<script src="{% static 'js/reveal-comment-section.js' %}" defer></script>
+<main>
+  <div class="main-page-container">
+    <div class="upp-part-page">
+      <div class="nav-bar-container">{% include 'nav_bar.html' %}</div>
+      <div class="description-upp-part-page">
+        <p class="main-page-descript">
+          FIND OUT THE MOST <b>INCREDIBLE</b> <br />
+          AND INSANE <b>PROJECTS</b> FROM <br />
+          <b>DEVELOPERS</b> AROUND THE WORLD
+        </p>
+      </div>
+    </div>
+<div class="low-part-page-container">
+  <div class="search-bar-container">
+    <form action="" method="get">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="search-proj"
+        id="search-text"
+        placeholder="Search projects"
+        class="search-bar-input"
+      />
+      <button type="submit" class="search-bar-button">Submit</button>
+    </form>
+  </div>
+  <div class="low-part-page-projs">
+    <div class="projs-container">
+      {% for project in page_obj %}
+      <div class="proj-container">
+        <!-- grid -->
+        <div class="proj-img-continer">
+          <!-- maybe flex for image -->
+          {% if 'proj-default.png' in project.photo.name %}
+          <img
+            src="{% static 'img/proj_pic/proj-default.png' %}"
+            alt="project image"
+            class="proj-img"
+          />
+          {% else %}
+          <img
+            src="{{project.photo}}"
+            alt="project image"
+            class="proj-img"
+          />
+          {% endif %}
+        <a href="{{project.source_link}}"><button class="proj-src-link">Source Link</button></a>
+        </div>
+        <div class="proj-title-description">
+          <!--flex title descr-->
+          <p class="proj-title">{{project.title}}</p>
+          <p class="proj-description">{{project.description}}</p>
+          <div class="proj-container-auth--date">
+            <!--flex for auth\creat-->
+            <p class="proj-author proj-auth-date">
+              Author: <a href="{% url 'dev-page' %}?next={{project.id}}"><span>{{project.owner.first_name}} {{project.owner.last_name}}</span></a>
+            </p>
+            <p class="proj-date-created proj-auth-date">
+              Date created: <span>{{project.created}}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if page_obj %}
+    <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ page_obj.number }}
+          </span>
+  
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          {% endif %}
+      </span>
+  </div>
+  {% else %}
+  {% endif %}
+  </div>
+</div>
+
+{% endblock content %}
